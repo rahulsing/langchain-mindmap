@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <!-- Include both the markmap-view and its dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
     <style>
@@ -19,21 +18,18 @@
 <body>
     <div id="mindmap"></div>
     <script>
-        // Wait for the DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            const { markmap } = window;
-            const markdown = `
-# Main Topic
-## Subtopic 1
-- Point 1
-- Point 2
-## Subtopic 2
-- Point 3
-- Point 4
-            `;
-
-            // Create markmap instance
-            markmap.Markmap.create('#mindmap', undefined, markdown);
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Fetch the markdown content
+                const response = await fetch('content.md');
+                const markdown = await response.text();
+                
+                // Create markmap instance
+                const { markmap } = window;
+                markmap.Markmap.create('#mindmap', undefined, markdown);
+            } catch (error) {
+                document.getElementById('mindmap').innerHTML = 'Error loading mindmap: ' + error.message;
+            }
         });
     </script>
 </body>
