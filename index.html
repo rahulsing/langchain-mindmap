@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.7"></script>
+    <!-- Use markmap-autoloader instead -->
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
     <style>
         body {
             margin: 0;
@@ -28,21 +28,12 @@
     <svg id="mindmap"></svg>
 
     <script>
-        function loadScript(url) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = url;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
-        }
-
-        async function initMindmap() {
+        // Initialize markmap when the page loads
+        window.onload = async function() {
             try {
-                // Load required scripts
-                await loadScript('https://cdn.jsdelivr.net/npm/markmap-lib@0.2.7');
-                
+                // Load markmap
+                const { Markmap, loadCSS, loadJS } = await autoLoader.load();
+
                 const markdown = `
 # Main Topic
 ## Subtopic 1
@@ -53,12 +44,8 @@
 ### Point 4`;
 
                 // Create mindmap
-                const { Markmap } = window.markmap;
-                const mm = Markmap.create("#mindmap", {
-                    autoFit: true,
-                    duration: 500
-                }, markdown);
-
+                const mm = Markmap.create("#mindmap", null, markdown);
+                
                 // Hide loading message
                 document.getElementById('loading').style.display = 'none';
 
@@ -68,10 +55,7 @@
                     `Error: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        }
-
-        // Start initialization when page loads
-        window.onload = initMindmap;
+        };
     </script>
 </body>
 </html>
