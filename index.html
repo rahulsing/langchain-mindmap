@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <!-- Use specific versions that are known to work together -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
     <style>
         body {
             margin: 0;
@@ -32,16 +30,20 @@
             padding: 5px 10px;
             cursor: pointer;
         }
-        .loading {
+        .error-message {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            color: red;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
-    <div id="loading" class="loading">Loading...</div>
     <svg id="mindmap"></svg>
     
     <div class="controls">
@@ -66,39 +68,56 @@
             if (mm) mm.fit();
         }
 
+        // Function to show error message
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+        }
+
         window.addEventListener('load', async () => {
-            const loadingElement = document.getElementById('loading');
-            
             try {
-                // Check if markmap is loaded
+                // Wait for markmap to be available
                 if (!window.markmap) {
                     throw new Error('Markmap library not loaded');
                 }
 
+                const { markmap } = window;
+                const { Markmap } = markmap;
+
+                // Your markdown content
                 const markdown = `
 # Main Topic
 ## Subtopic 1
 ### Point 1
+- Detail 1
+- Detail 2
 ### Point 2
+- Detail 3
+- Detail 4
 ## Subtopic 2
 ### Point 3
+- Detail 5
+- Detail 6
 ### Point 4
+- Detail 7
+- Detail 8
                 `;
 
-                // Create markmap instance
-                const { Markmap } = window.markmap;
+                // Create markmap with options
                 mm = Markmap.create('#mindmap', {
-                    autoFit: true,
-                    duration: 500,
+                    autoFit: true, // Automatically fit content to viewport
+                    duration: 500, // Animation duration in milliseconds
+                    nodeMinHeight: 16, // Minimum height of nodes
+                    spacingVertical: 5, // Vertical spacing between nodes
+                    spacingHorizontal: 80, // Horizontal spacing between nodes
+                    paddingX: 20, // Horizontal padding for the mindmap
                 }, markdown);
-
-                // Hide loading indicator
-                loadingElement.style.display = 'none';
 
             } catch (error) {
                 console.error('Error:', error);
-                loadingElement.innerHTML = `Error: ${error.message}`;
-                loadingElement.style.color = 'red';
+                showError(`Error creating mindmap: ${error.message}`);
             }
         });
     </script>
