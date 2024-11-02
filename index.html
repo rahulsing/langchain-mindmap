@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.11.6/dist/browser/index.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.11.6/dist/browser/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.15.3"></script>
     <style>
         body {
             margin: 0;
@@ -25,15 +23,27 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
         .controls button {
             margin: 0 5px;
             padding: 5px 10px;
             cursor: pointer;
         }
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
+    <div id="loading" class="loading">Loading mindmap...</div>
     <svg id="mindmap"></svg>
     
     <div class="controls">
@@ -43,65 +53,65 @@
     </div>
 
     <script>
-        let mm; // Global reference to markmap instance
+        let mindmapInstance;
 
+        // Zoom control functions
         function zoomIn() {
-            if (mm) mm.rescale(1.2);
+            if (mindmapInstance) mindmapInstance.rescale(1.2);
         }
 
         function zoomOut() {
-            if (mm) mm.rescale(0.8);
+            if (mindmapInstance) mindmapInstance.rescale(0.8);
         }
 
         function resetZoom() {
-            if (mm) mm.fit();
+            if (mindmapInstance) mindmapInstance.fit();
         }
 
-        window.addEventListener('load', async () => {
+        // Initialize mindmap
+        (async () => {
             try {
+                // Load markmap
+                const { markmap } = await autoLoader.load();
+
                 const markdown = `
 # Main Topic
 ## Subtopic 1
 ### Point 1
+- Detail A
+- Detail B
 ### Point 2
+- Detail C
+- Detail D
 ## Subtopic 2
 ### Point 3
-### Point 4`;
+- Detail E
+- Detail F
+### Point 4
+- Detail G
+- Detail H
+                `;
 
-                // Ensure libraries are loaded
-                if (!window.markmapLib || !window.markmap) {
-                    throw new Error('Required libraries not loaded');
-                }
+                // Remove loading message
+                document.getElementById('loading').style.display = 'none';
 
-                // Create transformer
-                const transformer = new window.markmapLib.Transformer();
-
-                // Transform markdown to mindmap data
-                const { root } = transformer.transform(markdown);
-
-                // Create markmap with options
-                mm = window.markmap.Markmap.create(
-                    document.querySelector('#mindmap'),
-                    {
-                        autoFit: true,
-                        duration: 500,
-                        nodeMinHeight: 16,
-                        spacingVertical: 5,
-                        spacingHorizontal: 80,
-                        paddingX: 20,
-                    },
-                    root
-                );
+                // Create mindmap with options
+                mindmapInstance = markmap.create('#mindmap', {
+                    autoFit: true,
+                    duration: 500,
+                    nodeMinHeight: 16,
+                    spacingVertical: 5,
+                    spacingHorizontal: 80,
+                    paddingX: 20,
+                }, markdown);
 
             } catch (error) {
                 console.error('Error:', error);
-                const svg = document.querySelector('#mindmap');
-                svg.innerHTML = `
-                    <text x="50%" y="50%" text-anchor="middle" fill="red">
-                        Error: ${error.message}
-                    </text>`;
+                document.getElementById('loading').innerHTML = 
+                    `Error creating mindmap: ${error.message}`;
+                document.getElementById('loading').style.color = 'red';
             }
-        });
+        })();
     </script>
 </body>
 </html>
