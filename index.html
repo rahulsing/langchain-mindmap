@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <!-- Load all required libraries in the correct order -->
+    <!-- Include markmap scripts -->
     <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.7"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.2.7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.1.2"></script>
     <style>
         body {
             margin: 0;
@@ -26,20 +26,13 @@
     </style>
 </head>
 <body>
-    <div id="loading" class="loading">Loading...</div>
+    <div id="loading" class="loading">Loading mindmap...</div>
     <svg id="mindmap"></svg>
 
     <script>
-        // Wait for all libraries to load
-        window.onload = function() {
-            setTimeout(() => {
-                initMindmap();
-            }, 1000);
-        };
-
-        function initMindmap() {
-            try {
-                const markdown = `
+        // Wait for page to load
+        document.addEventListener('DOMContentLoaded', () => {
+            const markdown = `
 # Main Topic
 ## Subtopic 1
 ### Point 1
@@ -48,9 +41,13 @@
 ### Point 3
 ### Point 4`;
 
-                // Create the mindmap
-                const { Markmap } = window.markmap;
-                const mm = Markmap.create("#mindmap", null, markdown);
+            try {
+                // Create markmap
+                const { markmap } = window;
+                const { Markmap } = markmap;
+                
+                // Create mindmap instance
+                const mm = Markmap.create('#mindmap', null, markdown);
                 
                 // Hide loading message
                 document.getElementById('loading').style.display = 'none';
@@ -58,10 +55,10 @@
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('loading').innerHTML = 
-                    `Error: ${error.message}`;
+                    `Error creating mindmap: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        }
+        });
     </script>
 </body>
 </html>
