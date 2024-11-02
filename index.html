@@ -4,114 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.15.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.7"></script>
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
         #mindmap {
             width: 100%;
             height: 100vh;
-        }
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-        .controls button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            cursor: pointer;
         }
         .loading {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
-    <div id="loading" class="loading">Loading mindmap...</div>
+    <div id="loading" class="loading">Loading...</div>
     <svg id="mindmap"></svg>
-    
-    <div class="controls">
-        <button onclick="zoomIn()">+</button>
-        <button onclick="zoomOut()">-</button>
-        <button onclick="resetZoom()">Reset</button>
-    </div>
 
     <script>
-        let mindmapInstance;
-
-        // Zoom control functions
-        function zoomIn() {
-            if (mindmapInstance) mindmapInstance.rescale(1.2);
+        function loadScript(url) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
         }
 
-        function zoomOut() {
-            if (mindmapInstance) mindmapInstance.rescale(0.8);
-        }
-
-        function resetZoom() {
-            if (mindmapInstance) mindmapInstance.fit();
-        }
-
-        // Initialize mindmap
-        (async () => {
+        async function initMindmap() {
             try {
-                // Load markmap
-                const { markmap } = await autoLoader.load();
-
+                // Load required scripts
+                await loadScript('https://cdn.jsdelivr.net/npm/markmap-lib@0.2.7');
+                
                 const markdown = `
 # Main Topic
 ## Subtopic 1
 ### Point 1
-- Detail A
-- Detail B
 ### Point 2
-- Detail C
-- Detail D
 ## Subtopic 2
 ### Point 3
-- Detail E
-- Detail F
-### Point 4
-- Detail G
-- Detail H
-                `;
+### Point 4`;
 
-                // Remove loading message
-                document.getElementById('loading').style.display = 'none';
-
-                // Create mindmap with options
-                mindmapInstance = markmap.create('#mindmap', {
+                // Create mindmap
+                const { Markmap } = window.markmap;
+                const mm = Markmap.create("#mindmap", {
                     autoFit: true,
-                    duration: 500,
-                    nodeMinHeight: 16,
-                    spacingVertical: 5,
-                    spacingHorizontal: 80,
-                    paddingX: 20,
+                    duration: 500
                 }, markdown);
+
+                // Hide loading message
+                document.getElementById('loading').style.display = 'none';
 
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('loading').innerHTML = 
-                    `Error creating mindmap: ${error.message}`;
+                    `Error: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        })();
+        }
+
+        // Start initialization when page loads
+        window.onload = initMindmap;
     </script>
 </body>
 </html>
