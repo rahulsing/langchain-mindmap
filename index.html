@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.3/dist/browser/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.3/dist/browser/index.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -12,6 +15,20 @@
         #mindmap {
             width: 100%;
             height: 100vh;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .controls button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
         }
         .loading {
             position: fixed;
@@ -24,29 +41,30 @@
 <body>
     <div id="loading" class="loading">Loading mindmap...</div>
     <svg id="mindmap"></svg>
+    
+    <div class="controls">
+        <button onclick="zoomIn()">+</button>
+        <button onclick="zoomOut()">-</button>
+        <button onclick="resetZoom()">Reset</button>
+    </div>
 
     <script>
-        // Function to load script dynamically
-        function loadScript(url) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = url;
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
+        let mindmapInstance;
+
+        function zoomIn() {
+            if (mindmapInstance) mindmapInstance.rescale(1.2);
         }
 
-        // Initialize markmap
-        async function initMarkmap() {
-            try {
-                // Load required scripts
-                await loadScript('https://cdn.jsdelivr.net/npm/d3@6.7.0');
-                await loadScript('https://cdn.jsdelivr.net/npm/markmap-view@0.2.7');
-                await loadScript('https://cdn.jsdelivr.net/npm/markmap-lib@0.2.7');
+        function zoomOut() {
+            if (mindmapInstance) mindmapInstance.rescale(0.8);
+        }
 
-                const markdown = `
-# Main Topic
+        function resetZoom() {
+            if (mindmapInstance) mindmapInstance.fit();
+        }
+
+        window.addEventListener('load', () => {
+            const markdown = `# Main Topic
 ## Subtopic 1
 ### Point 1
 ### Point 2
@@ -54,12 +72,16 @@
 ### Point 3
 ### Point 4`;
 
-                // Create markmap
-                const { Markmap } = window.markmap;
-                const mm = Markmap.create('#mindmap', {
+            try {
+                // Transform markdown
+                const transformer = new window.markmapLib.Transformer();
+                const { root } = transformer.transform(markdown);
+
+                // Create mindmap
+                mindmapInstance = window.markmap.Markmap.create('#mindmap', {
                     autoFit: true,
-                    duration: 500
-                }, markdown);
+                    duration: 500,
+                }, root);
 
                 // Hide loading message
                 document.getElementById('loading').style.display = 'none';
@@ -70,10 +92,7 @@
                     `Error creating mindmap: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        }
-
-        // Start initialization when page loads
-        window.onload = initMarkmap;
+        });
     </script>
 </body>
 </html>
