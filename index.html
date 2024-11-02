@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.4/dist/browser/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.4/dist/browser/index.js"></script>
     <style>
         #mindmap {
             width: 100%;
@@ -13,34 +14,42 @@
             margin: 0;
             padding: 0;
         }
+        .loading {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <svg id="mindmap"></svg>
+    <svg id="mindmap">
+        <text class="loading" x="50%" y="50%" text-anchor="middle">Loading...</text>
+    </svg>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Fetch markdown content
+                // Fetch the markdown content
                 const response = await fetch('content.md');
                 if (!response.ok) {
                     throw new Error('Failed to load markdown file');
                 }
                 const markdown = await response.text();
 
-                // Create transformer and transform the markdown
-                const { Transformer } = window.markmap;
+                // Transform the markdown
+                const { Transformer } = window.markmapLib;
                 const transformer = new Transformer();
-                
-                // Transform markdown into the required data structure
                 const { root } = transformer.transform(markdown);
-                
-                // Create markmap instance
+
+                // Create the mindmap
                 const { Markmap } = window.markmap;
-                const mm = Markmap.create('#mindmap', null, root);
+                const mm = Markmap.create('#mindmap', {
+                    autoFit: true,
+                    color: d3.scaleOrdinal(d3.schemeCategory10),
+                }, root);
 
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('mindmap').innerHTML = 'Error loading mindmap: ' + error.message;
+                const svg = document.getElementById('mindmap');
+                svg.innerHTML = `<text x="50%" y="50%" text-anchor="middle" fill="red">Error: ${error.message}</text>`;
             }
         });
     </script>
