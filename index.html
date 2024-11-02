@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <!-- Use markmap-autoloader instead -->
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+    <!-- Load all required libraries in the correct order -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.2.7"></script>
     <style>
         body {
             margin: 0;
@@ -28,12 +30,15 @@
     <svg id="mindmap"></svg>
 
     <script>
-        // Initialize markmap when the page loads
-        window.onload = async function() {
-            try {
-                // Load markmap
-                const { Markmap, loadCSS, loadJS } = await autoLoader.load();
+        // Wait for all libraries to load
+        window.onload = function() {
+            setTimeout(() => {
+                initMindmap();
+            }, 1000);
+        };
 
+        function initMindmap() {
+            try {
                 const markdown = `
 # Main Topic
 ## Subtopic 1
@@ -43,7 +48,8 @@
 ### Point 3
 ### Point 4`;
 
-                // Create mindmap
+                // Create the mindmap
+                const { Markmap } = window.markmap;
                 const mm = Markmap.create("#mindmap", null, markdown);
                 
                 // Hide loading message
@@ -55,7 +61,7 @@
                     `Error: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        };
+        }
     </script>
 </body>
 </html>
