@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.15.3/dist/index.min.js"></script>
+    <!-- Include all required dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-common@0.15.3/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-transform@0.15.3/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.15.3/dist/index.min.js"></script>
     <style>
         #mindmap {
             width: 100%;
@@ -23,11 +27,8 @@
     <svg id="mindmap"></svg>
 
     <script>
-        (async () => {
+        window.addEventListener('load', () => {
             try {
-                // Load markmap
-                const { Markmap, loadCSS, loadJS } = await autoLoader.load();
-
                 const markdown = `# Main Topic
 ## Subtopic 1
 ### Point 1
@@ -36,8 +37,15 @@
 ### Point 3
 ### Point 4`;
 
+                // Transform markdown
+                const transformer = new markmapTransform.Transformer();
+                const { root } = transformer.transform(markdown);
+
                 // Create mindmap
-                const mm = Markmap.create('#mindmap', null, markdown);
+                const mm = markmap.Markmap.create('#mindmap', {
+                    autoFit: true,
+                    duration: 500,
+                }, root);
 
                 // Hide loading message
                 document.getElementById('loading').style.display = 'none';
@@ -48,7 +56,7 @@
                     `Error creating mindmap: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        })();
+        });
     </script>
 </body>
 </html>
