@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.11.6/dist/browser/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.11.6/dist/browser/index.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -23,23 +25,11 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
         }
         .controls button {
             margin: 0 5px;
             padding: 5px 10px;
             cursor: pointer;
-        }
-        .error-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: red;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -55,7 +45,6 @@
     <script>
         let mm; // Global reference to markmap instance
 
-        // Zoom control functions
         function zoomIn() {
             if (mm) mm.rescale(1.2);
         }
@@ -68,56 +57,49 @@
             if (mm) mm.fit();
         }
 
-        // Function to show error message
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
-            document.body.appendChild(errorDiv);
-        }
-
         window.addEventListener('load', async () => {
             try {
-                // Wait for markmap to be available
-                if (!window.markmap) {
-                    throw new Error('Markmap library not loaded');
-                }
-
-                const { markmap } = window;
-                const { Markmap } = markmap;
-
-                // Your markdown content
                 const markdown = `
 # Main Topic
 ## Subtopic 1
 ### Point 1
-- Detail 1
-- Detail 2
 ### Point 2
-- Detail 3
-- Detail 4
 ## Subtopic 2
 ### Point 3
-- Detail 5
-- Detail 6
-### Point 4
-- Detail 7
-- Detail 8
-                `;
+### Point 4`;
+
+                // Ensure libraries are loaded
+                if (!window.markmapLib || !window.markmap) {
+                    throw new Error('Required libraries not loaded');
+                }
+
+                // Create transformer
+                const transformer = new window.markmapLib.Transformer();
+
+                // Transform markdown to mindmap data
+                const { root } = transformer.transform(markdown);
 
                 // Create markmap with options
-                mm = Markmap.create('#mindmap', {
-                    autoFit: true, // Automatically fit content to viewport
-                    duration: 500, // Animation duration in milliseconds
-                    nodeMinHeight: 16, // Minimum height of nodes
-                    spacingVertical: 5, // Vertical spacing between nodes
-                    spacingHorizontal: 80, // Horizontal spacing between nodes
-                    paddingX: 20, // Horizontal padding for the mindmap
-                }, markdown);
+                mm = window.markmap.Markmap.create(
+                    document.querySelector('#mindmap'),
+                    {
+                        autoFit: true,
+                        duration: 500,
+                        nodeMinHeight: 16,
+                        spacingVertical: 5,
+                        spacingHorizontal: 80,
+                        paddingX: 20,
+                    },
+                    root
+                );
 
             } catch (error) {
                 console.error('Error:', error);
-                showError(`Error creating mindmap: ${error.message}`);
+                const svg = document.querySelector('#mindmap');
+                svg.innerHTML = `
+                    <text x="50%" y="50%" text-anchor="middle" fill="red">
+                        Error: ${error.message}
+                    </text>`;
             }
         });
     </script>
