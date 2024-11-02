@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <!-- Load dependencies in correct order -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.4/dist/browser/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.4/dist/browser/index.js"></script>
+    <!-- Use specific versions that are known to work together -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.7"></script>
     <style>
         body {
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
         #mindmap {
             width: 100%;
@@ -25,6 +25,7 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
         .controls button {
             margin: 0 5px;
@@ -32,16 +33,17 @@
             cursor: pointer;
         }
         .loading {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
-    <svg id="mindmap">
-        <text class="loading" x="50%" y="50%" text-anchor="middle">Loading...</text>
-    </svg>
-
+    <div id="loading" class="loading">Loading...</div>
+    <svg id="mindmap"></svg>
+    
     <div class="controls">
         <button onclick="zoomIn()">+</button>
         <button onclick="zoomOut()">-</button>
@@ -49,23 +51,30 @@
     </div>
 
     <script>
-        let mindmap;
+        let mm; // Global reference to markmap instance
 
+        // Zoom control functions
         function zoomIn() {
-            if (mindmap) mindmap.rescale(1.2);
+            if (mm) mm.rescale(1.2);
         }
 
         function zoomOut() {
-            if (mindmap) mindmap.rescale(0.8);
+            if (mm) mm.rescale(0.8);
         }
 
         function resetZoom() {
-            if (mindmap) mindmap.fit();
+            if (mm) mm.fit();
         }
 
         window.addEventListener('load', async () => {
+            const loadingElement = document.getElementById('loading');
+            
             try {
-                // You can either use inline markdown
+                // Check if markmap is loaded
+                if (!window.markmap) {
+                    throw new Error('Markmap library not loaded');
+                }
+
                 const markdown = `
 # Main Topic
 ## Subtopic 1
@@ -76,29 +85,20 @@
 ### Point 4
                 `;
 
-                // Or load from a file
-                // const response = await fetch('content.md');
-                // const markdown = await response.text();
-
-                // Create transformer
-                const transformer = new window.markmapLib.Transformer();
-                
-                // Transform markdown
-                const { root } = transformer.transform(markdown);
-                
-                // Create mindmap with options
-                mindmap = window.markmap.Markmap.create('#mindmap', {
+                // Create markmap instance
+                const { Markmap } = window.markmap;
+                mm = Markmap.create('#mindmap', {
                     autoFit: true,
                     duration: 500,
-                    nodeFont: '16px Arial',
-                    spacing: 20,
-                    animations: true,
-                }, root);
+                }, markdown);
+
+                // Hide loading indicator
+                loadingElement.style.display = 'none';
 
             } catch (error) {
                 console.error('Error:', error);
-                const svg = document.getElementById('mindmap');
-                svg.innerHTML = `<text x="50%" y="50%" text-anchor="middle" fill="red">Error: ${error.message}</text>`;
+                loadingElement.innerHTML = `Error: ${error.message}`;
+                loadingElement.style.color = 'red';
             }
         });
     </script>
