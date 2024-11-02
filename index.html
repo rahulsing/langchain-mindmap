@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
     <style>
         #mindmap {
             width: 100%;
@@ -19,18 +20,24 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             try {
+                // Fetch markdown content
                 const response = await fetch('content.md');
                 if (!response.ok) {
                     throw new Error('Failed to load markdown file');
                 }
                 const markdown = await response.text();
 
-                // Create markmap
-                const { markmap } = window;
-                const { Markmap, loadCSS, loadJS } = markmap;
+                // Create transformer and transform the markdown
+                const { Transformer } = window.markmap;
+                const transformer = new Transformer();
+                
+                // Transform markdown into the required data structure
+                const { root } = transformer.transform(markdown);
                 
                 // Create markmap instance
-                const mm = Markmap.create("#mindmap", null, markdown);
+                const { Markmap } = window.markmap;
+                const mm = Markmap.create('#mindmap', null, root);
+
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('mindmap').innerHTML = 'Error loading mindmap: ' + error.message;
