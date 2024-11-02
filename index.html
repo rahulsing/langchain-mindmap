@@ -4,71 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.15.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.15.3/dist/index.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
         #mindmap {
             width: 100%;
             height: 100vh;
-        }
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-        .controls button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            cursor: pointer;
         }
         .loading {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
     <div id="loading" class="loading">Loading mindmap...</div>
     <svg id="mindmap"></svg>
-    
-    <div class="controls">
-        <button onclick="zoomIn()">+</button>
-        <button onclick="zoomOut()">-</button>
-        <button onclick="resetZoom()">Reset</button>
-    </div>
 
     <script>
-        let mindmapInstance;
-
-        function zoomIn() {
-            if (mindmapInstance) mindmapInstance.rescale(1.2);
-        }
-
-        function zoomOut() {
-            if (mindmapInstance) mindmapInstance.rescale(0.8);
-        }
-
-        function resetZoom() {
-            if (mindmapInstance) mindmapInstance.fit();
-        }
-
         (async () => {
             try {
-                const { markmap, loadCSS, loadJS } = await window.markmap.autoLoader.load();
+                // Load markmap
+                const { Markmap, loadCSS, loadJS } = await autoLoader.load();
 
                 const markdown = `# Main Topic
 ## Subtopic 1
@@ -79,10 +37,7 @@
 ### Point 4`;
 
                 // Create mindmap
-                mindmapInstance = markmap.create('#mindmap', {
-                    autoFit: true,
-                    duration: 500,
-                }, markdown);
+                const mm = Markmap.create('#mindmap', null, markdown);
 
                 // Hide loading message
                 document.getElementById('loading').style.display = 'none';
