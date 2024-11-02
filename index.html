@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Mindmap</title>
-    <script src="https://cdn.jsdelivr.net/npm/d3@6.7.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.3/dist/browser/index.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.3/dist/browser/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.15.3"></script>
     <style>
         body {
             margin: 0;
@@ -24,6 +22,7 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
         .controls button {
             margin: 0 5px;
@@ -35,6 +34,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -63,8 +66,11 @@
             if (mindmapInstance) mindmapInstance.fit();
         }
 
-        window.addEventListener('load', () => {
-            const markdown = `# Main Topic
+        (async () => {
+            try {
+                const { markmap, loadCSS, loadJS } = await window.markmap.autoLoader.load();
+
+                const markdown = `# Main Topic
 ## Subtopic 1
 ### Point 1
 ### Point 2
@@ -72,16 +78,11 @@
 ### Point 3
 ### Point 4`;
 
-            try {
-                // Transform markdown
-                const transformer = new window.markmapLib.Transformer();
-                const { root } = transformer.transform(markdown);
-
                 // Create mindmap
-                mindmapInstance = window.markmap.Markmap.create('#mindmap', {
+                mindmapInstance = markmap.create('#mindmap', {
                     autoFit: true,
                     duration: 500,
-                }, root);
+                }, markdown);
 
                 // Hide loading message
                 document.getElementById('loading').style.display = 'none';
@@ -92,7 +93,7 @@
                     `Error creating mindmap: ${error.message}`;
                 document.getElementById('loading').style.color = 'red';
             }
-        });
+        })();
     </script>
 </body>
 </html>
