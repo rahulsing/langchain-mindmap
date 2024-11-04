@@ -3,38 +3,22 @@
   <head>
     <title>My Mind Map</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mindmup-editablemind-map/1.6.1/mindmup-editablemind-map.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   </head>
   <body>
-    <div id="mindmap"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mindmup-editablemind-map/1.6.1/mindmup-editablemind-map.js"></script>
+    <div class="mermaid">
+      mindmap
+        root((My Mind Map))
+          Topic 1
+            Subtopic 1.1
+            Subtopic 1.2
+          Topic 2
+            Subtopic 2.1
+            Subtopic 2.2
+    </div>
     <script>
-      var mindmap = new mindmup.Map('#mindmap', {
-        'draggable': true,
-        'editable': true,
-        'data': {
-          'id': 'root',
-          'topic': 'My Mind Map',
-          'children': [
-            {
-              'id': '1',
-              'topic': 'Topic 1',
-              'children': [
-                {'id': '1.1', 'topic': 'Subtopic 1.1'},
-                {'id': '1.2', 'topic': 'Subtopic 1.2'}
-              ]
-            },
-            {
-              'id': '2',
-              'topic': 'Topic 2',
-              'children': [
-                {'id': '2.1', 'topic': 'Subtopic 2.1'},
-                {'id': '2.2', 'topic': 'Subtopic 2.2'}
-              ]
-            }
-          ]
-        }
-      });
+      mermaid.initialize({ startOnLoad: true });
     </script>
   </body>
 </html>
