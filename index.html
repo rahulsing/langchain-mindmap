@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <title>My Mind Map</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown Mindmap</title>
-    <script src="https://unpkg.com/markmap-autoloader"></script>
-    <style>
-        #mindmap {
-            width: 100%;
-            height: 100vh;
-        }
-    </style>
-</head>
-<body>
-    <svg id="mindmap"></svg>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mindmup-editablemind-map/1.6.1/mindmup-editablemind-map.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mindmup-editablemind-map/1.6.1/mindmup-editablemind-map.js"></script>
+  </head>
+  <body>
+    <div id="mindmap"></div>
     <script>
-        ((c, d) => {
-            const markdown = `# Main Topic
-## Subtopic 1
-### Point 1
-### Point 2
-## Subtopic 2
-### Point 3
-### Point 4`;
-
-            window.markmap = {
-                autoLoader: { manual: true },
-                data: markdown
-            };
-
-            const script = d.createElement('script');
-            script.src = 'https://unpkg.com/markmap-autoloader';
-            script.onload = () => {
-                window.markmap.autoLoader.renderAll();
-            };
-            d.head.appendChild(script);
-        })(console, document);
+      var mindmap = new mindmup.Map('#mindmap', {
+        'draggable': true,
+        'editable': true,
+        'data': {
+          'id': 'root',
+          'topic': 'My Mind Map',
+          'children': [
+            {
+              'id': '1',
+              'topic': 'Topic 1',
+              'children': [
+                {'id': '1.1', 'topic': 'Subtopic 1.1'},
+                {'id': '1.2', 'topic': 'Subtopic 1.2'}
+              ]
+            },
+            {
+              'id': '2',
+              'topic': 'Topic 2',
+              'children': [
+                {'id': '2.1', 'topic': 'Subtopic 2.1'},
+                {'id': '2.2', 'topic': 'Subtopic 2.2'}
+              ]
+            }
+          ]
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
