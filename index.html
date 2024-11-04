@@ -7,18 +7,24 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   </head>
   <body>
-    <div class="mermaid">
-      mindmap
-        root((My Mind Map))
-          Topic 1
-            Subtopic 1.1
-            Subtopic 1.2
-          Topic 2
-            Subtopic 2.1
-            Subtopic 2.2
-    </div>
+    <div class="mermaid"></div>
     <script>
-      mermaid.initialize({ startOnLoad: true });
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default',
+        securityLevel: 'loose',
+        markdown: true,
+        content: `{{ content }}`,
+      });
+    </script>
+    <script>
+      fetch('mindmap.md')
+        .then(response => response.text())
+        .then(markdown => {
+          const content = document.querySelector('.mermaid');
+          content.innerHTML = markdown;
+          mermaid.init();
+        });
     </script>
   </body>
 </html>
