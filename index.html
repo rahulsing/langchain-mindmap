@@ -9,223 +9,183 @@
   <body>
     <div class="mermaid">
       mindmap
-      root(( LangChain API ))
-         Prompt Management
-          [Prompt Templates](https://python.langchain.com/docs/concepts/prompt_templates/)
-          [Example Selectors](https://python.langchain.com/docs/concepts/example_selectors/)
-          [Few-shot Prompting](https://python.langchain.com/docs/concepts/few_shot_prompting/)
-         Model Invocation
-          [LLMs]()
-           Examples
-            [How to: cache model responses](https://python.langchain.com/docs/how_to/llm_caching/)
-            [How to: create a custom LLM class](https://python.langchain.com/docs/how_to/custom_llm/)
-            [How to: stream a response back](https://python.langchain.com/docs/how_to/streaming_llm/)
-            [How to: track token usage](https://python.langchain.com/docs/how_to/llm_token_usage_tracking/)
-            [How to: work with local models](https://python.langchain.com/docs/how_to/local_llms/)
-      
-      
-      
-          [Chat Models](https://python.langchain.com/docs/concepts/chat_models/)
-           Integrations
-            Official models : langchain-\<provider\>
-            Community models : langchain-community
-      
-           methods
-            invoke: The primary method for interacting with a chat model. It takes a list of messages as input and returns a list of messages as output.
-            stream: A method that allows you to stream the output of a chat model as it is generated.
-            batch: A method that allows you to batch multiple requests to a chat model together for more efficient processing.
-            bind_tools: A method that allows you to bind a tool to a chat model for use in the model's execution context.
-            with_structured_output: A wrapper around the invoke method for models that natively support structured output.
-      
-           Inputs and outputs
-            LangChain Message Format
-            OpenAI's Message Format
-      
-           Examples
-            [How to: do function/tool calling](https://python.langchain.com/docs//how_to/tool_calling/)
-            [How to: get models to return structured output](https://python.langchain.com/docs//how_to/structured_output/)
-            [How to: cache model responses](https://python.langchain.com/docs//how_to/chat_model_caching/)
-            [How to: get log probabilities](https://python.langchain.com/docs//how_to/logprobs/)
-            [How to: create a custom chat model class](https://python.langchain.com/docs/how_to/custom_chat_model/)
-            [How to: stream a response back](https://python.langchain.com/docs//how_to/chat_streaming/)
-            [How to: track token usage](https://python.langchain.com/docs//how_to/chat_token_usage_tracking/)
-            [How to: track response metadata across providers](https://python.langchain.com/docs//how_to/response_metadata/)
-            [How to: use chat model to call tools](https://python.langchain.com/docs//how_to/tool_calling/)
-            [How to: stream tool calls](https://python.langchain.com/docs//how_to/tool_streaming/)
-            [How to: handle rate limits](https://python.langchain.com/docs//how_to/chat_model_rate_limiting/)
-            [How to: few shot prompt tool behavior](https://python.langchain.com/docs//how_to/tools_few_shot/)
-            [How to: bind model-specific formatted tools](https://python.langchain.com/docs//how_to/tools_model_specific/)
-            [How to: force a specific tool call](https://python.langchain.com/docs//how_to/tool_choice/)
-            [How to: work with local models](https://python.langchain.com/docs//how_to/local_llms/)
-            [How to: init any model in one line](https://python.langchain.com/docs//how_to/chat_models_universal_init/)
-      
-          [Messages](https://python.langchain.com/docs/concepts/messages/)
-           SystemMessage
-           HumanMessage
-           AIMessage
-           AIMessageChunk
-           ToolMessage
-           RemoveMessage
-           (Legacy) FunctionMessage
-      
-           Examples 
-            [How to: trim messages](https://python.langchain.com/docs/how_to/trim_messages/)
-            [How to: filter messages](https://python.langchain.com/docs/how_to/filter_messages/)
-            [How to: merge consecutive messages of the same type](https://python.langchain.com/docs/how_to/merge_message_runs/)
-      
-          [Chat History](https://python.langchain.com/docs/concepts/chat_history/)
-          [Output Parsers](https://python.langchain.com/docs/concepts/output_parsers/)
-           Examples 
-            [How to: use output parsers to parse an LLM response into structured format](https://python.langchain.com/docs/how_to/output_parser_structured/)
-            [How to: parse JSON output](https://python.langchain.com/docs/how_to/output_parser_json/)
-            [How to: parse XML output](https://python.langchain.com/docs/how_to/output_parser_xml/)
-            [How to: parse YAML output](https://python.langchain.com/docs/how_to/output_parser_yaml/)
-            [How to: retry when output parsing errors occur](https://python.langchain.com/docs/how_to/output_parser_retry/)
-            [How to: try to fix errors in output parsing](https://python.langchain.com/docs/how_to/output_parser_fixing/)
-            [How to: write a custom output parser class](https://python.langchain.com/docs/how_to/output_parser_custom/)
-      
-          [Structured Output](https://python.langchain.com/docs/concepts/structured_outputs/)
-          [Tool Calling](https://python.langchain.com/docs/concepts/tool_calling/)
-          [Memory](https://langchain-ai.github.io/langgraph/concepts/memory/)
-           Example 
-            [How to: manage memory](https://python.langchain.com/docs/how_to/chatbots_memory/)
-            [How to: do retrieval](https://python.langchain.com/docs/how_to/chatbots_retrieval/)
-            [How to: use tools](https://python.langchain.com/docs/how_to/chatbots_tools/)
-            [How to: manage large chat history](https://python.langchain.com/docs/how_to/trim_messages/)
-      
-      
-          [Multimodality](https://python.langchain.com/docs/concepts/multimodality/)
-      
-           Example
-            [How to: pass multimodal data directly to models](https://python.langchain.com/docs/how_to/multimodal_inputs/)
-            [How to: use multimodal prompts](https://python.langchain.com/docs/how_to/multimodal_prompts/)
-         Data Management
-          [Document Loaders](https://python.langchain.com/docs/concepts/document_loaders/)
-           Examples
-            [How to: load PDF files](https://python.langchain.com/docs/how_to/document_loader_pdf/)
-            [How to: load web pages](https://python.langchain.com/docs/how_to/document_loader_web/)
-            [How to: load CSV data](https://python.langchain.com/docs/how_to/document_loader_csv/)
-            [How to: load data from a directory](https://python.langchain.com/docs/how_to/document_loader_directory/)
-            [How to: load HTML data](https://python.langchain.com/docs/how_to/document_loader_html/)
-            [How to: load JSON data](https://python.langchain.com/docs/how_to/document_loader_json/)
-            [How to: load Markdown data](https://python.langchain.com/docs/how_to/document_loader_markdown/)
-            [How to: load Microsoft Office data](https://python.langchain.com/docs/how_to/document_loader_office_file/)
-            [How to: write a custom document loader](https://python.langchain.com/docs/how_to/document_loader_custom/)
-      
-          [Text Splitters](https://python.langchain.com/docs/concepts/text_splitters/)
-           Examples
-            [How to: recursively split text](https://python.langchain.comhttps://python.langchain.com/docs/how_to/recursive_text_splitter/)
-            [How to: split by HTML headers](https://python.langchain.com/docs/how_to/HTML_header_metadata_splitter/)
-            [How to: split by HTML sections](https://python.langchain.com/docs/how_to/HTML_section_aware_splitter/)
-            [How to: split by character](https://python.langchain.com/docs/how_to/character_text_splitter/)
-            [How to: split code](https://python.langchain.com/docs/how_to/code_splitter/)
-            [How to: split Markdown by headers](https://python.langchain.com/docs/how_to/markdown_header_metadata_splitter/)
-            [How to: recursively split JSON](https://python.langchain.com/docs/how_to/recursive_json_splitter/)
-            [How to: split text into semantic chunks](https://python.langchain.com/docs/how_to/semantic-chunker/)
-            [How to: split by tokens](https://python.langchain.com/docs/how_to/split_by_token/)
-      
-          [Embedding Models](https://python.langchain.com/docs/concepts/embedding_models/)
-           Examples
-            [How to: embed text data](https://python.langchain.com/docs/how_to/embed_text/)
-            [How to: cache embedding results](https://python.langchain.com/docs/how_to/caching_embeddings/)
-      
-          [Vector Stores](https://python.langchain.com/docs/concepts/vectorstores/)
-           Example 
-            [How to: use a vector store to retrieve data](https://python.langchain.com/docs/how_to/vectorstores/)
-          [Retrievers](https://python.langchain.com/docs/concepts/retrievers/)
-           Examples
-            [How to: use a vector store to retrieve data](https://python.langchain.com/docs/how_to/vectorstore_retriever/)
-            [How to: generate multiple queries to retrieve data for](https://python.langchain.com/docs/how_to/MultiQueryRetriever/)
-            [How to: use contextual compression to compress the data retrieved](https://python.langchain.com/docs/how_to/contextual_compression/)
-            [How to: write a custom retriever class](https://python.langchain.com/docs/how_to/custom_retriever/)
-            [How to: add similarity scores to retriever results](https://python.langchain.com/docs/how_to/add_scores_retriever/)
-            [How to: combine the results from multiple retrievers](https://python.langchain.com/docs/how_to/ensemble_retriever/)
-            [How to: reorder retrieved results to mitigate the "lost in the middle" effect](https://python.langchain.com/docs/how_to/long_context_reorder/)
-            [How to: generate multiple embeddings per document](https://python.langchain.com/docs/how_to/multi_vector/)
-            [How to: retrieve the whole document for a chunk](https://python.langchain.com/docs/how_to/parent_document_retriever/)
-            [How to: generate metadata filters](https://python.langchain.com/docs/how_to/self_query/)
-            [How to: create a time-weighted retriever](https://python.langchain.com/docs/how_to/time_weighted_vectorstore/)
-            [How to: use hybrid vector and keyword retrieval](https://python.langchain.com/docs/how_to/hybrid/)
-      
-          [Retrieval](https://python.langchain.com/docs/concepts/retrieval/)
-          [Retrieval Augmented Generation (RAG)](https://python.langchain.com/docs/concepts/rag/)
-           Example
-            [How to: add chat history](https://python.langchain.com/docs/how_to/qa_chat_history_how_to/)
-            [How to: stream](https://python.langchain.com/docs/how_to/qa_streaming/)
-            [How to: return sources](https://python.langchain.com/docs/how_to/qa_sources/)
-            [How to: return citations](https://python.langchain.com/docs/how_to/qa_citations/)
-            [How to: do per-user retrieval](https://python.langchain.com/docs/how_to/qa_per_user/)
-      
-         Task Execution
-          [Tools](https://python.langchain.com/docs/concepts/tools/)
-           Example 
-            [How to: create tools](https://python.langchain.com/docs/how_to/custom_tools/)
-            [How to: use built-in tools and toolkits](https://python.langchain.com/docs/how_to/tools_builtin/)
-            [How to: use chat models to call tools](https://python.langchain.com/docs/how_to/tool_calling/)
-            [How to: pass tool outputs to chat models](https://python.langchain.com/docs/how_to/tool_results_pass_to_model/)
-            [How to: pass run time values to tools](https://python.langchain.com/docs/how_to/tool_runtime/)
-            [How to: add a human-in-the-loop for tools](https://python.langchain.com/docs/how_to/tools_human/)
-            [How to: handle tool errors](https://python.langchain.com/docs/how_to/tools_error/)
-            [How to: force models to call a tool](https://python.langchain.com/docs/how_to/tool_choice/)
-            [How to: disable parallel tool calling](https://python.langchain.com/docs/how_to/tool_calling_parallel/)
-            [How to: access the <code>RunnableConfig</code> from a tool](https://python.langchain.com/docs/how_to/tool_configure/)
-            [How to: stream events from a tool](https://python.langchain.com/docs/how_to/tool_stream_events/)
-            [How to: return artifacts from a tool](https://python.langchain.com/docs/how_to/tool_artifacts/)
-            [How to: convert Runnables to tools](https://python.langchain.com/docs/how_to/convert_runnable_to_tool/)
-            [How to: add ad-hoc tool calling capability to models](https://python.langchain.com/docs/how_to/tools_prompting/)
-            [How to: pass in runtime secrets](https://python.langchain.com/docs/how_to/runnable_runtime_secrets/)
-      
-          [Agents](https://python.langchain.com/docs/concepts/agents/)
-           Example 
-            [How to: use legacy LangChain Agents (AgentExecutor)](https://python.langchain.com/docs/how_to/agent_executor/)
-            [How to: migrate from legacy LangChain agents to LangGraph](https://python.langchain.com/docs/how_to/migrate_agent/)
-      
-          [Runnable Interface](https://python.langchain.com/docs/concepts/runnables/)
-          [LangChain Expression Language (LCEL)](https://python.langchain.com/docs/concepts/lcel/)
-         [Callbacks](https://python.langchain.com/docs/concepts/callbacks/)
-          Examples
-           [How to: pass in callbacks at runtime](https://python.langchain.com/docs/how_to/callbacks_runtime/)
-           [How to: attach callbacks to a module](https://python.langchain.com/docs/how_to/callbacks_attach/)
-           [How to: pass callbacks into a module constructor](https://python.langchain.com/docs/how_to/callbacks_constructor/)
-           [How to: create custom callback handlers](https://python.langchain.com/docs/how_to/custom_callbacks/)
-           [How to: use callbacks in async environments](https://python.langchain.com/docs/how_to/callbacks_async/)
-           [How to: dispatch custom callback events](https://python.langchain.com/docs/how_to/callbacks_custom_events/)
-      
-         [Tracing](https://python.langchain.com/docs/concepts/tracing/)
-         [Evaluation](https://python.langchain.com/docs/concepts/evaluation/)
-         Custom
-          Example 
-           [How to: create a custom chat model class](https://python.langchain.com/docs/how_to/custom_chat_model/)
-           [How to: create a custom LLM class](https://python.langchain.com/docs/how_to/custom_llm/)
-           [How to: write a custom retriever class](https://python.langchain.com/docs/how_to/custom_retriever/)
-           [How to: write a custom document loader](https://python.langchain.com/docs/how_to/document_loader_custom/)
-           [How to: write a custom output parser class](https://python.langchain.com/docs/how_to/output_parser_custom/)
-           [How to: create custom callback handlers](https://python.langchain.com/docs/how_to/custom_callbacks/)
-           [How to: define a custom tool](https://python.langchain.com/docs/how_to/custom_tools/)
-           [How to: dispatch custom callback events](https://python.langchain.com/docs/how_to/callbacks_custom_events/)
-      
-         Serialization
-          Examples
-           [How to: save and load LangChain objects](https://python.langchain.com/docs/how_to/serialization/)
-         [Async Programming](https://python.langchain.com/docs/concepts/async/)
-      
-        Details 
-      
-      1. **Prompt Management**: This new node groups components related to managing and constructing prompts for language models, including "Prompt Templates", "Example Selectors", and "Few-shot Prompting".
-      
-      2. **Model Invocation**: This node now includes additional components related to invoking and interacting with language models, such as "Chat History", "Structured Output", "Tool Calling", "Memory", and "Multimodality".
-      
-      3. **Data Management**: This node remains the same, grouping components related to handling and managing data for language models and retrieval tasks.
-      
-      4. **Task Execution**: This node now includes the "Runnable Interface" and "LangChain Expression Language" components, which are related to orchestrating and executing tasks using LangChain components.
-      
-      5. **Tracing** and **Evaluation**: These new nodes represent the concepts of tracing the execution steps of an application and evaluating the performance and effectiveness of AI applications, respectively.
-      
-      6. **Async Programming**: This new node represents the concept of asynchronous programming, which is important when using LangChain in an asynchronous context.
-      
-      The other nodes, such as "Callbacks", "Custom", and "Serialization", remain the same.
-      
-      This updated mindmap aims to better reflect the relationships and groupings of the various concepts and components within the LangChain API, based on the information you provided.
+# LangChain API
+    ## Prompt Management
+        ### Prompt Templates
+        ### Example Selectors
+        ### Few-shot Prompting
+    ## Model Invocation
+        ### LLMs
+            #### Examples
+                ##### How to: cache model responses
+                ##### How to: create a custom LLM class
+                ##### How to: stream a response back
+                ##### How to: track token usage
+                ##### How to: work with local models
+        ### Chat Models
+            #### Integrations
+                ##### Official models : langchain-<provider>
+                ##### Community models : langchain-community
+            #### methods
+                ##### invoke
+                ##### stream
+                ##### batch
+                ##### bind_tools
+                ##### with_structured_output
+            #### Inputs and outputs
+                ##### LangChain Message Format
+                ##### OpenAI's Message Format
+            #### Examples
+                ##### How to: do function/tool calling
+                ##### How to: get models to return structured output
+                ##### How to: cache model responses
+                ##### How to: get log probabilities
+                ##### How to: create a custom chat model class
+                ##### How to: stream a response back
+                ##### How to: track token usage
+                ##### How to: track response metadata across providers
+                ##### How to: use chat model to call tools
+                ##### How to: stream tool calls
+                ##### How to: handle rate limits
+                ##### How to: few shot prompt tool behavior
+                ##### How to: bind model-specific formatted tools
+                ##### How to: force a specific tool call
+                ##### How to: work with local models
+                ##### How to: init any model in one line
+        ### Messages
+            #### SystemMessage
+            #### HumanMessage
+            #### AIMessage
+            #### AIMessageChunk
+            #### ToolMessage
+            #### RemoveMessage
+            #### (Legacy) FunctionMessage
+            #### Examples
+                ##### How to: trim messages
+                ##### How to: filter messages
+                ##### How to: merge consecutive messages of the same type
+        ### Chat History
+        ### Output Parsers
+            #### Examples
+                ##### How to: use output parsers to parse an LLM response into structured format
+                ##### How to: parse JSON output
+                ##### How to: parse XML output
+                ##### How to: parse YAML output
+                ##### How to: retry when output parsing errors occur
+                ##### How to: try to fix errors in output parsing
+                ##### How to: write a custom output parser class
+        ### Structured Output
+        ### Tool Calling
+        ### Memory
+            #### Example
+                ##### How to: manage memory
+                ##### How to: do retrieval
+                ##### How to: use tools
+                ##### How to: manage large chat history
+        ### Multimodality
+            #### Example
+                ##### How to: pass multimodal data directly to models
+                ##### How to: use multimodal prompts
+    ## Data Management
+        ### Document Loaders
+            #### Examples
+                ##### How to: load PDF files
+                ##### How to: load web pages
+                ##### How to: load CSV data
+                ##### How to: load data from a directory
+                ##### How to: load HTML data
+                ##### How to: load JSON data
+                ##### How to: load Markdown data
+                ##### How to: load Microsoft Office data
+                ##### How to: write a custom document loader
+        ### Text Splitters
+            #### Examples
+                ##### How to: recursively split text
+                ##### How to: split by HTML headers
+                ##### How to: split by HTML sections
+                ##### How to: split by character
+                ##### How to: split code
+                ##### How to: split Markdown by headers
+                ##### How to: recursively split JSON
+                ##### How to: split text into semantic chunks
+                ##### How to: split by tokens
+        ### Embedding Models
+            #### Examples
+                ##### How to: embed text data
+                ##### How to: cache embedding results
+        ### Vector Stores
+            #### Example
+                ##### How to: use a vector store to retrieve data
+        ### Retrievers
+            #### Examples
+                ##### How to: use a vector store to retrieve data
+                ##### How to: generate multiple queries to retrieve data for
+                ##### How to: use contextual compression to compress the data retrieved
+                ##### How to: write a custom retriever class
+                ##### How to: add similarity scores to retriever results
+                ##### How to: combine the results from multiple retrievers
+                ##### How to: reorder retrieved results to mitigate the "lost in the middle" effect
+                ##### How to: generate multiple embeddings per document
+                ##### How to: retrieve the whole document for a chunk
+                ##### How to: generate metadata filters
+                ##### How to: create a time-weighted retriever
+                ##### How to: use hybrid vector and keyword retrieval
+        ### Retrieval
+        ### Retrieval Augmented Generation (RAG)
+            #### Example
+                ##### How to: add chat history
+                ##### How to: stream
+                ##### How to: return sources
+                ##### How to: return citations
+                ##### How to: do per-user retrieval
+    ## Task Execution
+        ### Tools
+            #### Example
+                ##### How to: create tools
+                ##### How to: use built-in tools and toolkits
+                ##### How to: use chat models to call tools
+                ##### How to: pass tool outputs to chat models
+                ##### How to: pass run time values to tools
+                ##### How to: add a human-in-the-loop for tools
+                ##### How to: handle tool errors
+                ##### How to: force models to call a tool
+                ##### How to: disable parallel tool calling
+                ##### How to: access the <code>RunnableConfig</code> from a tool
+                ##### How to: stream events from a tool
+                ##### How to: return artifacts from a tool
+                ##### How to: convert Runnables to tools
+                ##### How to: add ad-hoc tool calling capability to models
+                ##### How to: pass in runtime secrets
+        ### Agents
+            #### Example
+                ##### How to: use legacy LangChain Agents (AgentExecutor)
+                ##### How to: migrate from legacy LangChain agents to LangGraph
+        ### Runnable Interface
+        ### LangChain Expression Language (LCEL)
+    ## Callbacks
+        ### Examples
+            #### How to: pass in callbacks at runtime
+            #### How to: attach callbacks to a module
+            #### How to: pass callbacks into a module constructor
+            #### How to: create custom callback handlers
+            #### How to: use callbacks in async environments
+            #### How to: dispatch custom callback events
+    ## Tracing
+    ## Evaluation
+    ## Custom
+        ### Example
+            #### How to: create a custom chat model class
+            #### How to: create a custom LLM class
+            #### How to: write a custom retriever class
+            #### How to: write a custom document loader
+            #### How to: write a custom output parser class
+            #### How to: create custom callback handlers
+            #### How to: define a custom tool
+            #### How to: dispatch custom callback events
+    ## Serialization
+        ### Examples
+            #### How to: save and load LangChain objects
+    ## Async Programming
     </div>
     <script>
       mermaid.initialize({ startOnLoad: true });
